@@ -1,0 +1,44 @@
+name: Deploy to Digital Ocean
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Digital Ocean
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DO_IP }}
+          username: ${{ secrets.DO_USER }}
+          password: ${{ secrets.DO_PASS }}
+          script: |
+            # Check if the application directory exists
+            if [ ! -d "/wisdom-robot" ]; then
+              echo "Application directory does not exist. Performing initial setup..."
+              # Create the directory
+              mkdir -p /wisdom-robot
+              # Clone the repository
+              git clone https://${{ secrets.GH_TOKEN }}@github.com/armandolio/robot.git /wisdom-robot
+              cd /wisdom-robot
+            else
+              echo "Application directory exists. Performing update..."
+              cd /wisdom-robot
+              git pull origin main
+            fi
+
+            #  Install dependencies
+            npm install
+
+            # Check if the PM2 process exists
+            if pm2 list | grep -q "wisdom-robot"; then
+              echo "Restarting existing PM2 process..."
+              pm2 restart "wisdom-robot"
+            else
+              echo "Starting new PM2 process..."
+              pm2 start npm --name "wisdom-robot" -- start
+            fi
+
+            echo "Deployment successful!"

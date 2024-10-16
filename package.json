@@ -1,0 +1,35 @@
+{
+  "name": "robot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "google-auth-library": "^9.14.0",
+    "google-spreadsheet": "^4.1.2",
+    "instagram-private-api": "^1.46.1",
+    "moment-timezone": "^0.5.46",
+    "node-fetch": "^3.3.2",
+    "node-schedule": "^2.1.1",
+    "pexels": "^1.4.0",
+    "pino": "^9.4.0",
+    "pino-multi-stream": "^6.0.0",
+    "pino-pretty": "^11.2.2",
+    "sharp": "^0.33.5",
+    "twitter-api-v2": "^1.18.0",
+    "unsplash-js": "^7.0.19"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
