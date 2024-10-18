@@ -16,16 +16,16 @@ jobs:
           password: ${{ secrets.DO_PASS }}
           script: |
             # Check if the application directory exists
-            if [ ! -d "/wisdom-robot" ]; then
+            if [ ! -d "/the-mind-hacks" ]; then
               echo "Application directory does not exist. Performing initial setup..."
               # Create the directory
-              mkdir -p /wisdom-robot
+              mkdir -p /the-mind-hacks
               # Clone the repository
-              git clone https://${{ secrets.GH_TOKEN }}@github.com/armandolio/robot.git /wisdom-robot
-              cd /wisdom-robot
+              git clone https://${{ secrets.GH_TOKEN }}@github.com/armandolio/the-mind-hacks.git /the-mind-hacks
+              cd /the-mind-hacks
             else
               echo "Application directory exists. Performing update..."
-              cd /wisdom-robot
+              cd /the-mind-hacks
               git pull origin main
             fi
 
@@ -33,12 +33,12 @@ jobs:
             npm install
 
             # Check if the PM2 process exists
-            if pm2 list | grep -q "wisdom-robot"; then
+            if pm2 list | grep -q "the-mind-hacks"; then
               echo "Restarting existing PM2 process..."
-              pm2 restart "wisdom-robot"
+              pm2 restart "the-mind-hacks"
             else
               echo "Starting new PM2 process..."
-              pm2 start npm --name "wisdom-robot" -- start
+              pm2 start npm --name "the-mind-hacks" -- start
             fi
 
             echo "Deployment successful!"

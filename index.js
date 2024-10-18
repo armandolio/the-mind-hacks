@@ -18,12 +18,14 @@ const SocialNetworks = {
   instagram: "instagram",
 }
 
+const logFilePath = `${__dirname}/logs/server.log`
+
 async function main() {
   const helper = new Helper()
   await helper.init()
 
   // Create file stream
-  const fileStream = fs.createWriteStream(`${__dirname}/logs/server.log`, {
+  const fileStream = fs.createWriteStream(logFilePath, {
     flags: "a",
   })
 
@@ -339,9 +341,31 @@ app.get("/", (req, res) => {
   res.send("Hello World!")
 })
 
-app.get("/update", (req, res) => {
+// app.get("/status", (req, res) => {
+//   main().catch(console.error)
+//   res.send("status")
+// })
+
+// Route to return the logs
+app.get("/status", (req, res) => {
+  // check if the log file exists
+  if (!fs.existsSync(logFilePath)) {
+    return res.status(404).send("Log file not found")
+  }
+
+  fs.readFile(logFilePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading the log file:", err)
+      return res.status(500).send("Unable to read log file")
+    }
+    // Send the contents of the log file as the response
+    res.type("text/plain").send(data)
+  })
+})
+
+app.get("/start", (req, res) => {
   main().catch(console.error)
-  res.send("update")
+  res.send("Starting...")
 })
 
 app.listen(port, () => {
