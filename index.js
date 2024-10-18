@@ -363,9 +363,24 @@ app.get("/status", (req, res) => {
   })
 })
 
+let isMainRunning = false
+
 app.get("/start", (req, res) => {
-  main().catch(console.error)
-  res.send("Starting...")
+  if (isMainRunning) {
+    res.send("Main is already running.")
+  } else {
+    isMainRunning = true
+    main()
+      .catch((error) => {
+        isMainRunning = false
+        console.error("Error running main:", error)
+        res.status(500).send("Error running main.")
+      })
+      .finally(() => {
+        isMainRunning = false
+        res.send("Main finished running.")
+      })
+  }
 })
 
 app.listen(port, () => {
