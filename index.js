@@ -20,26 +20,26 @@ const SocialNetworks = {
 
 const logFilePath = `${__dirname}/logs/server.log`
 
+// Create file stream
+const fileStream = fs.createWriteStream(logFilePath, {
+  flags: "a",
+})
+
+const streams = [
+  { stream: fileStream }, // Log to file
+  { stream: pretty() }, // Log to console
+]
+
+const logger = pino(
+  {
+    timestamp: () => `,"time":"${new Date().toISOString()}"`, // Customize the date format
+  },
+  multistream(streams)
+)
+
 async function main() {
   const helper = new Helper()
   await helper.init()
-
-  // Create file stream
-  const fileStream = fs.createWriteStream(logFilePath, {
-    flags: "a",
-  })
-
-  const streams = [
-    { stream: fileStream }, // Log to file
-    { stream: pretty() }, // Log to console
-  ]
-
-  const logger = pino(
-    {
-      timestamp: () => `,"time":"${new Date().toISOString()}"`, // Customize the date format
-    },
-    multistream(streams)
-  )
 
   logger.info({
     message: "Initializing...",
@@ -307,11 +307,6 @@ async function main() {
     // For each selected interval, choose a random time and schedule the task
     selectedIntervals.forEach(({ sheet, start, end }, index) => {
       const randomTime = getRandomTimeWithinInterval(start, end)
-      // console.log(
-      //   `Scheduling post for interval ${index + 1} at ${randomTime.hour}:${
-      //     randomTime.minute
-      //   }`
-      // )
 
       // Schedule the task with timezone
       scheduleTask(randomTime, SocialNetworks.twitter, sheet)
@@ -341,11 +336,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!")
 })
 
-// app.get("/status", (req, res) => {
-//   main().catch(console.error)
-//   res.send("status")
-// })
-
 // Route to return the logs
 app.get("/status", (req, res) => {
   // check if the log file exists
@@ -370,16 +360,17 @@ app.get("/start", (req, res) => {
     res.send("Main is already running.")
   } else {
     isMainRunning = true
-    main()
-      .catch((error) => {
-        isMainRunning = false
-        console.error("Error running main:", error)
-        res.status(500).send("Error running main.")
-      })
-      .finally(() => {
-        isMainRunning = false
-        res.send("Main finished running.")
-      })
+    main().catch((error) => {
+      isMainRunning = false
+      console.error("Error running main:", error)
+      res.status(500).send("Error running main.")
+    })
+    // .finally(() => {
+    //   isMainRunning = false
+    //   res.send("Main finished running.")
+    // })
+
+    res.send("Main started.")
   }
 })
 
