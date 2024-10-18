@@ -45,7 +45,7 @@ jobs:
              fi
              echo "Creating and cloning repository"
              mkdir -p /var/www/wisdom.short.cool
-             git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
+             git clone https://${{ secrets.GH_TOKEN }}@github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
              cd /var/www/wisdom.short.cool
              npm install --production
-             # pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start
+             pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start

@@ -46,6 +46,12 @@ async function main() {
     serverTime: new Date(),
   })
 
+  logger.info({
+    message: "Checking Environment Variables...",
+    serverTime: new Date(),
+    twitterUser: process.env.TWITTER_USERNAME,
+  })
+
   // Configuration: Time of day to execute the random scheduling (e.g., 7 a.m. daily)
   const dailyScheduleTime = "0 5 * * *" // At 5:00 AM every day
   // const timezone = "America/New_York" // Specify the desired timezone
