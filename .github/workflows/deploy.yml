@@ -19,9 +19,6 @@ jobs:
       #  - name: Install dependencies
       #    run: yarn install --ignore-engines
 
-      - name: Install Yarn
-        run: npm install -g yarn
-
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
         env:
@@ -41,5 +38,5 @@ jobs:
              mkdir -p /var/www/wisdom.short.cool
              git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
              cd /var/www/wisdom.short.cool
-             yarn install
+             npm install
              # pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start
