@@ -11,7 +11,7 @@ const fs = require("fs")
 const pretty = require("pino-pretty")
 const express = require("express")
 const app = express()
-const port = 80
+const port = 9000
 
 const SocialNetworks = {
   twitter: "twitter",
