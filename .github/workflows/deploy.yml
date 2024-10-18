@@ -19,9 +19,6 @@ jobs:
       - name: Install dependencies
         run: npm install --production
 
-      - name: Install pm2
-        run: npm install -g pm2
-
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
         env:
