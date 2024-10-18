@@ -17,7 +17,7 @@ jobs:
           node-version: "14"
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
@@ -32,5 +32,5 @@ jobs:
             echo "Starting deployment"
             cd /var/www/wisdom.short.cool || echo "Failed to change directory"
             git pull origin main || echo "Failed to pull from git"
-            npm install --only=production || echo "Failed to install dependencies"
-            pm2 restart wisdom || pm2 start npm --name "wisdom" -- start
+            yarn install --production || echo "Failed to install dependencies"
+            pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start
