@@ -9,27 +9,28 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-        
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Deploy to DigitalOcean
-      uses: appleboy/ssh-action@master
-      env:
-        NODE_ENV: production
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        envs: NODE_ENV
-        script: |
-          cd /var/www/wisdom.short.cool
-          git pull origin main
-          npm install --only=production
-          pm2 restart wisdom || pm2 start npm --name "wisdom" -- start
+      - uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@master
+        env:
+          NODE_ENV: production
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: NODE_ENV
+          script: |
+            echo "Starting deployment"
+            cd /var/www/wisdom.short.cool || echo "Failed to change directory"
+            git pull origin main || echo "Failed to pull from git"
+            npm install --only=production || echo "Failed to install dependencies"
+            pm2 restart wisdom || pm2 start npm --name "wisdom" -- start
