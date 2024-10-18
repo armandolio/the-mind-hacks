@@ -32,11 +32,11 @@ jobs:
            echo "Starting deployment"
             if [ -d "/var/www/wisdom.short.cool" ]; then
               echo "Directory exists, removing it"
-              sudo rm -rf /var/www/wisdom.short.cool
+              rm -rf /var/www/wisdom.short.cool
             fi
             echo "Creating and cloning repository"
-            sudo mkdir -p /var/www/wisdom.short.cool
-            sudo git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
+            mkdir -p /var/www/wisdom.short.cool
+            git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
             cd /var/www/wisdom.short.cool
-            sudo yarn install --production
-            sudo pm2 restart wisdom || sudo pm2 start yarn --name "wisdom" -- start
+            yarn install --production
+            pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start
