@@ -11,13 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "14"
+    #  - name: Install Node.js
+    #    uses: actions/setup-node@v2
+    #    with:
+    #      node-version: "14"
 
-      - name: Install dependencies
-        run: yarn install --ignore-engines
+    #  - name: Install dependencies
+    #    run: yarn install --ignore-engines
 
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
@@ -32,7 +32,7 @@ jobs:
             echo "Starting deployment"
             if [ ! -d " /var/www/wisdom.short.cool" ]; then
               echo "Directory does not exist, creating and cloning repository"
-              sudo mkdir -p  /var/www/wisdom.short.cool
+              mkdir -p  /var/www/wisdom.short.cool
               git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
             fi
             cd /var/www/wisdom.short.cool
