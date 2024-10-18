@@ -16,8 +16,29 @@ jobs:
         with:
           node-version: "14"
 
-      #  - name: Install dependencies
-      #    run: yarn install --ignore-engines
+      - name: Install dependencies
+        run: npm install --production
+
+      - name: Check if directory exists
+        run: |
+          if [ -d "/var/www/wisdom.short.cool" ]; then
+            echo "Directory exists."
+          else
+            echo "Directory does not exist, creating it."
+            mkdir -p /var/www/wisdom.short.cool
+          fi
+
+      - name: Check directory permissions
+        run: ls -ld /var/www/wisdom.short.cool
+
+      - name: Check npm version
+        run: npm --version
+      
+      - name: Check yarn version
+        run: yarn --version
+
+      - name: Check PATH
+        run: echo $PATH
 
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@master
@@ -38,5 +59,5 @@ jobs:
              mkdir -p /var/www/wisdom.short.cool
              git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
              cd /var/www/wisdom.short.cool
-             npm install
+             npm install --production
              # pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start
