@@ -39,6 +39,6 @@ jobs:
              git clone https://${{ secrets.GH_TOKEN }}@github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
              cd /var/www/wisdom.short.cool
              npm install --production
-             pm2 restart "wisdom" || pm2 start npm --name "wisdom" -- start
+             pm2 restart "wisdom" || pm2 start npm --name "wisdom" --port 9000 -- start
              pm2 save
              echo "Deployment complete"
