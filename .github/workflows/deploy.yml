@@ -17,7 +17,7 @@ jobs:
         node-version: '14'
         
     - name: Install dependencies
-      run: npm ci
+      run: npm install
       
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@master
@@ -31,5 +31,5 @@ jobs:
         script: |
           cd /var/www/wisdom.short.cool
           git pull origin main
-          npm ci --only=production
+          npm install --only=production
           pm2 restart wisdom || pm2 start npm --name "wisdom" -- start
