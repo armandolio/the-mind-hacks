@@ -34,6 +34,6 @@ jobs:
               cd /var/www/wisdom.short.cool
               git pull origin main
               npm install --production
-              pm2 restart "wisdom" || pm2 start npm --name "wisdom" --port 9000 -- start
+              pm2 restart wisdom || pm2 start npm --name wisdom -- start
               pm2 save
               echo "Deployment complete"
