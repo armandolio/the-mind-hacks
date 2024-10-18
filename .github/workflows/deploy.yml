@@ -29,19 +29,19 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: NODE_ENV
           script: |
-           echo "Starting deployment"
-            if [ ! -d "/var/www/wisdom.short.cool" ]; then
+            echo "Starting deployment"
+            if [ ! -d " /var/www/wisdom.short.cool" ]; then
               echo "Directory does not exist, creating and cloning repository"
-              sudo mkdir -p /var/www/wisdom.short.cool
-              sudo git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
+              mkdir -p  /var/www/wisdom.short.cool
+              git clone https://github.com/armandolio/the-mind-hacks /var/www/wisdom.short.cool --depth 1
             fi
             cd /var/www/wisdom.short.cool
             if [ ! -d ".git" ]; then
               echo "Not a git repository, initializing"
-              sudo git init
-              sudo git remote add origin https://github.com/armandolio/the-mind-hacks
+              git init
+              git remote add origin https://github.com/armandolio/the-mind-hacks
             fi
-            sudo git fetch --all
-            sudo git reset --hard origin/main
-            sudo yarn install --production
-            sudo pm2 restart wisdom || sudo pm2 start yarn --name "wisdom" -- start
+            git fetch --all
+            git reset --hard origin/main
+            yarn install --production
+            pm2 restart wisdom || pm2 start yarn --name "wisdom" -- start
