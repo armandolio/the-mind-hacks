@@ -19,15 +19,6 @@ jobs:
       - name: Install dependencies
         run: npm install --production
 
-      - name: Check if directory exists
-        run: |
-          if [ -d "/var/www/wisdom.short.cool" ]; then
-            echo "Directory exists."
-          else
-            echo "Directory does not exist, creating it."
-            mkdir -p /var/www/wisdom.short.cool
-          fi
-
       - name: Check directory permissions
         run: ls -ld /var/www/wisdom.short.cool
 
